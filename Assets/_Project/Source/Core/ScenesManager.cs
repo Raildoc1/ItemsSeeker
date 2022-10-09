@@ -32,14 +32,10 @@ namespace ItemsSeeker.Core
             while (SceneManager.sceneCount > 1)
             {
                 var currentSceneName = SceneManager.GetSceneAt(1).name;
-                Debug.Log($"Unloading {currentSceneName}...");
                 yield return SceneManager.UnloadSceneAsync(currentSceneName);
-                Debug.Log($"Unloaded");
             }
 
-            Debug.Log($"Loading scene {sceneName}...");
             yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            Debug.Log($"Scene {sceneName} loaded successfully!");
 
             var compositionRoots = Object.FindObjectsOfType<CompositionRoot>();
 
