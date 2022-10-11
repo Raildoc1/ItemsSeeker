@@ -7,7 +7,7 @@ namespace ItemsSeeker
 {
     public class MainMenuRoot : CompositionRoot
     {
-        [SerializeField] private List<Button> _levelButtons;
+        [SerializeField] List<Button> _levelButtons;
 
         public override void Compose(ScenesManager scenesManager, MonoBehaviour _coroutineHolder)
         {
