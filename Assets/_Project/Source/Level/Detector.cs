@@ -30,7 +30,6 @@ namespace ItemsSeeker.Levels.Detection
         IDetectable FindFocus()
         {
             var ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-
             var hits = Physics.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, _layerMask);
 
             for (int i = 0; i < hits.Length; i++)

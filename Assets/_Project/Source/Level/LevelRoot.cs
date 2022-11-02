@@ -1,7 +1,7 @@
-using ItemsSeeker.Core;
-using ItemsSeeker.Levels.Detection;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using ItemsSeeker.Core;
+using ItemsSeeker.Levels.Detection;
 
 namespace ItemsSeeker.Levels
 {
@@ -9,13 +9,12 @@ namespace ItemsSeeker.Levels
     {
         [SerializeField] PlayerInput _playerInput;
         [SerializeField] Detector _detector;
-        [Header("Detection")]
-        [SerializeField] Camera _camera;
-        [SerializeField] LayerMask _layerMask;
+        [SerializeField] RequiredItemListSettings _requiredItemListSettings;
 
         public override void Compose(ScenesManager scenesManager, MonoBehaviour _coroutineHolder)
         {
-            var itemPickUp = new ItemPickUp(_detector, _playerInput);
+            var requiredItemList = new RequiredItemList(_requiredItemListSettings);
+            var itemPickUp = new ItemPickUp(_detector, _playerInput, requiredItemList);
         }
     }
 }
