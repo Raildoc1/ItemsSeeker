@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84d5bf54278881f46b47d6f442358be6, type: 3}
-  m_Name: RequiredItemList
+  m_Name: Test
   m_EditorClassIdentifier: 
   _requiredItems:
   - Test1
