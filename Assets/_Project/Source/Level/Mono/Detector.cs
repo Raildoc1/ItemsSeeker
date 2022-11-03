@@ -2,25 +2,25 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ItemsSeeker.Levels.Detection
+namespace ItemsSeeker.Levels
 {
     public class Detector : MonoBehaviour
     {
-        public event Action OnFocusChanged;
-
         [SerializeField] Camera _camera;
         [SerializeField] PlayerInput _playerInput;
         [SerializeField] LayerMask _layerMask;
 
-        public IDetectable Focus => _focus;
-
         IDetectable _focus;
+
+        public event Action OnFocusChanged;
+
+        public IDetectable Focus => _focus;
 
         void Update()
         {
             var newFocus = FindFocus();
 
-            if(_focus != newFocus)
+            if (_focus != newFocus)
             {
                 OnFocusChanged?.Invoke();
                 _focus = newFocus;

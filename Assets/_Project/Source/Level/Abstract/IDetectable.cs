@@ -1,4 +1,4 @@
-namespace ItemsSeeker.Levels.Detection
+namespace ItemsSeeker.Levels
 {
     public interface IDetectable
     {

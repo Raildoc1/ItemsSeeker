@@ -1,5 +1,4 @@
-﻿using ItemsSeeker.Levels.Detection;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ItemsSeeker.Levels
 {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ItemsSeeker.Levels.Detection
+namespace ItemsSeeker.Levels
 {
     public class Raycaster
     {
