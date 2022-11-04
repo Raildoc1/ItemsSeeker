@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ItemsSeeker.Levels
 {
     [System.Serializable]
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Settings/RequiredItemList")]
     class RequiredItemListSettings : ScriptableObject
     {
         [SerializeField]

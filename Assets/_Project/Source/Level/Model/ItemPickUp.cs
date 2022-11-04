@@ -3,12 +3,12 @@ using UnityEngine.InputSystem;
 
 namespace ItemsSeeker.Levels
 {
-    class ItemPickUp
+    class ItemPicker
     {
         readonly Detector _detector;
         readonly RequiredItemList _requiredItemList;
 
-        public ItemPickUp(
+        public ItemPicker(
             Detector detector,
             PlayerInput playerInput,
             RequiredItemList requiredItemList
@@ -25,8 +25,6 @@ namespace ItemsSeeker.Levels
 
         void OnMainAction(InputAction.CallbackContext context)
         {
-            Debug.Log(_detector.Focus?.GetType());
-
             if (_detector.Focus is not PickUpItem pickUpItem)
                 return;
 

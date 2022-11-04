@@ -1,26 +1,39 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using ItemsSeeker.Core;
+using ItemsSeeker.Levels.View;
 
 namespace ItemsSeeker.Levels
 {
     public class LevelRoot : CompositionRoot
     {
+        [Header("Common")]
         [SerializeField] PlayerInput _playerInput;
-        [SerializeField] Detector _detector;
+        [SerializeField] Camera _camera;
+
+        [Header("Settings")]
         [SerializeField] RequiredItemListSettings _requiredItemListSettings;
+        [SerializeField] DetectorSettings _detectorSettings;
+
+        [Header("View")]
         [SerializeField] RequiredItemListView _requiredItemListView;
+        [SerializeField] InGameMenuView _inGameMenuView;
 
         RequiredItemList _requiredItemList;
-        ItemPickUp _itemPickUp;
+        ItemPicker _itemPicker;
+        InGameMenu _inGameMenu;
+        Detector _detector;
 
-        public override void Compose(ScenesManager scenesManager, MonoBehaviour _coroutineHolder)
+        public override void Compose(ScenesManager scenesManager, MonoBehaviour coroutineHolder, GameLoop gameLoop)
         {
+            var detector = new Detector(gameLoop, scenesManager, _camera, _detectorSettings);
             var requiredItemList = new RequiredItemList(_requiredItemListSettings);
-            var itemPickUp = new ItemPickUp(_detector, _playerInput, requiredItemList);
+            var itemPicker = new ItemPicker(detector, _playerInput, requiredItemList);
+            var inGameMenu = new InGameMenu(scenesManager, coroutineHolder);
 
             _requiredItemList = requiredItemList;
-            _itemPickUp = itemPickUp;
+            _itemPicker = itemPicker;
+            _inGameMenu = inGameMenu;
 
             InitView();
         }
@@ -28,6 +41,7 @@ namespace ItemsSeeker.Levels
         void InitView()
         {
             _requiredItemListView.Init(_requiredItemList);
+            _inGameMenuView.Init(_inGameMenu);
         }
     }
 }

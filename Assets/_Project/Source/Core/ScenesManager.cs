@@ -1,19 +1,25 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace ItemsSeeker.Core
 {
-    public class ScenesManager
+    public class ScenesManager : ILifeCycle
     {
         const string MenuSceneName = "MainMenu";
         const string LevelSceneNameFormat = "Level_{0}";
 
         readonly MonoBehaviour _coroutineHolder;
+        readonly GameLoop _gameLoop;
 
-        public ScenesManager(MonoBehaviour coroutineHolder)
+        public event Action OnSceneStartUnloading;
+
+        public ScenesManager(MonoBehaviour coroutineHolder, GameLoop gameLoop)
         {
             _coroutineHolder = coroutineHolder;
+            _gameLoop = gameLoop;
         }
 
         public IEnumerator GoToLevel(int number)
@@ -29,6 +35,8 @@ namespace ItemsSeeker.Core
 
         IEnumerator LoadSceneAsync(string sceneName)
         {
+            OnSceneStartUnloading?.Invoke();
+
             while (SceneManager.sceneCount > 1)
             {
                 var currentSceneName = SceneManager.GetSceneAt(1).name;
@@ -45,7 +53,7 @@ namespace ItemsSeeker.Core
             if (compositionRoots.Length == 0)
                 Debug.LogError("No composition root found!");
 
-            compositionRoots[0].Compose(this, _coroutineHolder);
+            compositionRoots[0].Compose(this, _coroutineHolder, _gameLoop);
         }
     }
 }
