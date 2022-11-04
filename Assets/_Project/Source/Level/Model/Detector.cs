@@ -5,35 +5,39 @@ using UnityEngine.InputSystem;
 
 namespace ItemsSeeker.Levels
 {
-    class Detector
+    class Detector : SceneComponent
     {
         Camera _camera;
         DetectorSettings _settings;
-        ILifeCycle _lifeCycle;
         GameLoop _gameLoop;
-
-        public Detector(GameLoop gameLoop, ILifeCycle lifeCycle, Camera camera, DetectorSettings settings)
-        {
-            _camera = camera;
-            _settings = settings;
-            _lifeCycle = lifeCycle;
-            _gameLoop = gameLoop;
-
-            gameLoop.onTick += Tick;
-            lifeCycle.OnSceneStartUnloading += OnSceneStartUnloading;
-        }
-
-        void OnSceneStartUnloading()
-        {
-            _gameLoop.onTick -= Tick;
-            _lifeCycle.OnSceneStartUnloading -= OnSceneStartUnloading;
-        }
-
         IDetectable _focus;
 
         public event Action OnFocusChanged;
 
         public IDetectable Focus => _focus;
+
+        public Detector(
+            CompositionRoot root,
+            GameLoop gameLoop,
+            Camera camera,
+            DetectorSettings settings
+        )
+            : base(root)
+        {
+            _camera = camera;
+            _settings = settings;
+            _gameLoop = gameLoop;
+        }
+
+        public override void OnSceneLoaded()
+        {
+            _gameLoop.onTick += Tick;
+        }
+
+        public override void OnSceneWillUnload()
+        {
+            _gameLoop.onTick -= Tick;
+        }
 
         void Tick()
         {

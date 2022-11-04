@@ -1,26 +1,36 @@
-using UnityEngine;
+using ItemsSeeker.Core;
 using UnityEngine.InputSystem;
 
 namespace ItemsSeeker.Levels
 {
-    class ItemPicker
+    class ItemPicker : SceneComponent
     {
         readonly Detector _detector;
         readonly RequiredItemList _requiredItemList;
+        readonly InputAction _main;
 
         public ItemPicker(
+            CompositionRoot root,
             Detector detector,
             PlayerInput playerInput,
             RequiredItemList requiredItemList
         )
+            : base(root)
         {
             _detector = detector;
             _requiredItemList = requiredItemList;
 
-            var inputActionMap = playerInput.currentActionMap;
-            var main = inputActionMap.FindAction("Main");
+            _main = playerInput.currentActionMap.FindAction("Main");
+        }
 
-            main.performed += OnMainAction;
+        public override void OnSceneLoaded()
+        {
+            _main.performed += OnMainAction;
+        }
+
+        public override void OnSceneWillUnload()
+        {
+            _main.performed -= OnMainAction;
         }
 
         void OnMainAction(InputAction.CallbackContext context)

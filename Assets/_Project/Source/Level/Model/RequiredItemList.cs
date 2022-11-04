@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ItemsSeeker.Core;
+using System;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 
 namespace ItemsSeeker.Levels
 {
-    class RequiredItemList
+    class RequiredItemList : SceneComponent
     {
         public class Item
         {
@@ -20,12 +20,19 @@ namespace ItemsSeeker.Levels
         public bool HasItems => _requiredItems.Count > 0;
         public IReadOnlyCollection<Item> RequiredItems => _requiredItems;
 
-        public RequiredItemList(RequiredItemListSettings settings)
+        public RequiredItemList(
+            CompositionRoot root,
+            RequiredItemListSettings settings
+        )
+            : base(root)
         {
             _settings = settings;
-
             _requiredItems = new List<Item>();
-            foreach (var itemName in settings.RequiredItems)
+        }
+
+        public override void OnSceneLoaded()
+        {
+            foreach (var itemName in _settings.RequiredItems)
             {
                 _requiredItems.Add(
                     new Item
@@ -35,6 +42,11 @@ namespace ItemsSeeker.Levels
                     }
                 );
             }
+        }
+
+        public override void OnSceneWillUnload()
+        {
+            _requiredItems.Clear();
         }
 
         public bool TryRemoveItem(string itemName)

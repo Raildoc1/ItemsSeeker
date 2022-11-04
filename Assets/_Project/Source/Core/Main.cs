@@ -16,7 +16,7 @@ namespace ItemsSeeker.Core
 
         IEnumerator Start()
         {
-            yield return _scenesManager.GoToMainMenu();
+            yield return _scenesManager.GoToMainMenuRoutine();
         }
     }
 }

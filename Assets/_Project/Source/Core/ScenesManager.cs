@@ -13,6 +13,7 @@ namespace ItemsSeeker.Core
 
         readonly MonoBehaviour _coroutineHolder;
         readonly GameLoop _gameLoop;
+        CompositionRoot _currentRoot;
 
         public event Action OnSceneStartUnloading;
 
@@ -28,9 +29,14 @@ namespace ItemsSeeker.Core
             yield return LoadSceneAsync(sceneName);
         }
 
-        public IEnumerator GoToMainMenu()
+        public IEnumerator GoToMainMenuRoutine()
         {
             yield return LoadSceneAsync(MenuSceneName);
+        }
+
+        public void GoToMainMenu()
+        {
+            _coroutineHolder.StartCoroutine(GoToMainMenuRoutine());
         }
 
         IEnumerator LoadSceneAsync(string sceneName)
@@ -40,6 +46,7 @@ namespace ItemsSeeker.Core
             while (SceneManager.sceneCount > 1)
             {
                 var currentSceneName = SceneManager.GetSceneAt(1).name;
+                _currentRoot?.OnSceneWillUnload();
                 yield return SceneManager.UnloadSceneAsync(currentSceneName);
             }
 
@@ -54,6 +61,8 @@ namespace ItemsSeeker.Core
                 Debug.LogError("No composition root found!");
 
             compositionRoots[0].Compose(this, _coroutineHolder, _gameLoop);
+            compositionRoots[0].OnSceneLoaded();
+            _currentRoot = compositionRoots[0];
         }
     }
 }
