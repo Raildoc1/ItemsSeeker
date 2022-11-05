@@ -19,9 +19,6 @@ namespace ItemsSeeker.Levels
         [SerializeField] RequiredItemListView _requiredItemListView;
         [SerializeField] InGameMenuView _inGameMenuView;
 
-        RequiredItemList _requiredItemList;
-        InGameMenu _inGameMenu;
-
         public override void Compose(ScenesManager scenesManager, MonoBehaviour coroutineHolder, GameLoop gameLoop)
         {
             var detector = new Detector(this, gameLoop, _camera, _detectorSettings);
@@ -29,16 +26,8 @@ namespace ItemsSeeker.Levels
             var itemPicker = new ItemPicker(this, detector, _playerInput, requiredItemList);
             var inGameMenu = new InGameMenu(this, scenesManager, _playerInput);
 
-            _requiredItemList = requiredItemList;
-            _inGameMenu = inGameMenu;
-        }
-
-        public override void OnSceneLoaded()
-        {
-            base.OnSceneLoaded();
-
-            _requiredItemListView.Init(_requiredItemList);
-            _inGameMenuView.Init(_inGameMenu);
+            _requiredItemListView.Construct(this, requiredItemList);
+            _inGameMenuView.Construct(this, inGameMenu);
         }
     }
 }

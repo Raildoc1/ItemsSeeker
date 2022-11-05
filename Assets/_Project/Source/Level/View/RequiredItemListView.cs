@@ -1,28 +1,41 @@
+using ItemsSeeker.Core;
 using ItemsSeeker.Levels.View;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ItemsSeeker.Levels
 {
-    class RequiredItemListView : MonoBehaviour
+    class RequiredItemListView : ViewMono
     {
         [SerializeField] private Transform _itemViewsContainer;
         [SerializeField] private ItemNameView _itemNameViewPrefab;
 
+        RequiredItemList _requiredItemList;
         Dictionary<string, ItemNameView> _viewsMap;
 
-        public void Init(RequiredItemList requiredItemList)
+        public void Construct(CompositionRoot root, RequiredItemList requiredItemList)
         {
-            _viewsMap = new Dictionary<string, ItemNameView>();
+            root.RegisterView(this);
 
-            foreach (var item in requiredItemList.RequiredItems)
+            _viewsMap = new Dictionary<string, ItemNameView>();
+            _requiredItemList = requiredItemList;
+        }
+
+        public override void Init()
+        {
+            foreach (var item in _requiredItemList.RequiredItems)
             {
                 var itemNameView = Instantiate(_itemNameViewPrefab, _itemViewsContainer);
-                itemNameView.Init(item.Name);
+                itemNameView.SetItemName(item.Name);
                 _viewsMap[item.Name] = itemNameView;
             }
 
-            requiredItemList.OnItemPickedUp += OnItemPickedUp;
+            _requiredItemList.OnItemPickedUp += OnItemPickedUp;
+        }
+
+        public override void Deinit()
+        {
+            _requiredItemList.OnItemPickedUp -= OnItemPickedUp;
         }
 
         void OnItemPickedUp(string itemName)

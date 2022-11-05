@@ -7,7 +7,7 @@ namespace ItemsSeeker.Levels.View
     {
         [SerializeField] TextMeshProUGUI _textMesh;
 
-        public void Init(string itemName)
+        public void SetItemName(string itemName)
         {
             _textMesh.text = itemName;
         }
