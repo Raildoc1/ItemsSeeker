@@ -9,12 +9,18 @@ namespace ItemsSeeker.Levels.View
         [SerializeField] Button _quitButton;
 
         InGameMenu _inGameMenu;
+        FadeScreen _fadeScreen;
 
-        public void Construct(CompositionRoot root, InGameMenu inGameMenu)
+        public void Construct(
+            CompositionRoot root,
+            InGameMenu inGameMenu,
+            FadeScreen fadeScreen
+            )
         {
             root.RegisterView(this);
 
             _inGameMenu = inGameMenu;
+            _fadeScreen = fadeScreen;
         }
 
         public override void Init()
@@ -43,7 +49,7 @@ namespace ItemsSeeker.Levels.View
 
         void Quit()
         {
-            _inGameMenu.QuitLevel();
+            _fadeScreen.FadeOut(() => _inGameMenu.QuitLevel());
         }
     }
 }

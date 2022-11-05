@@ -10,6 +10,7 @@ namespace ItemsSeeker.Levels
         [Header("Common")]
         [SerializeField] PlayerInput _playerInput;
         [SerializeField] Camera _camera;
+        [SerializeField] FadeScreen _fadeScreen;
 
         [Header("Settings")]
         [SerializeField] RequiredItemListSettings _requiredItemListSettings;
@@ -27,7 +28,8 @@ namespace ItemsSeeker.Levels
             var inGameMenu = new InGameMenu(this, scenesManager, _playerInput);
 
             _requiredItemListView.Construct(this, requiredItemList);
-            _inGameMenuView.Construct(this, inGameMenu);
+            _fadeScreen.Construct(this);
+            _inGameMenuView.Construct(this, inGameMenu, _fadeScreen);
         }
     }
 }

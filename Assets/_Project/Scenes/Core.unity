@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameLoop: {fileID: 555006834}
+  _fadeScreen: {fileID: 0}
 --- !u!114 &555006834
 MonoBehaviour:
   m_ObjectHideFlags: 0

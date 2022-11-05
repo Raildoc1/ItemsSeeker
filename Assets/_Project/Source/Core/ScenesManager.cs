@@ -61,8 +61,8 @@ namespace ItemsSeeker.Core
                 Debug.LogError("No composition root found!");
 
             compositionRoots[0].Compose(this, _coroutineHolder, _gameLoop);
-            compositionRoots[0].OnSceneLoaded();
             _currentRoot = compositionRoots[0];
+            _currentRoot.OnSceneLoaded();
         }
     }
 }

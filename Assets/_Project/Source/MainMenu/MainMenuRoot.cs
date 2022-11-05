@@ -10,21 +10,37 @@ namespace ItemsSeeker
     {
         [SerializeField] List<Button> _levelButtons;
         [SerializeField] Button _quitButton;
+        [SerializeField] FadeScreen _fadeScreen;
 
-        public override void Compose(ScenesManager scenesManager, MonoBehaviour _coroutineHolder, GameLoop gameLoop)
+        MonoBehaviour _coroutineHolder;
+        ScenesManager _scenesManager;
+
+        public override void Compose(ScenesManager scenesManager, MonoBehaviour coroutineHolder, GameLoop gameLoop)
+        {
+            _coroutineHolder = coroutineHolder;
+            _scenesManager = scenesManager;
+
+            _fadeScreen.FadeIn(Construct);
+        }
+
+        void Construct()
         {
             for (int i = 0; i < _levelButtons.Count; i++)
             {
                 int levelNumber = i + 1;
-                _levelButtons[i].onClick.AddListener(() => _coroutineHolder.StartCoroutine(scenesManager.GoToLevel(levelNumber)));
+                _levelButtons[i].onClick.AddListener(() =>
+                _fadeScreen.FadeOut(() =>
+                        _coroutineHolder.StartCoroutine(_scenesManager.GoToLevel(levelNumber))
+                    )
+                );
             }
 
             _quitButton.onClick.AddListener(() =>
             {
 #if UNITY_EDITOR
-                EditorApplication.ExitPlaymode();
+                _fadeScreen.FadeOut(() => EditorApplication.ExitPlaymode());
 #else
-                Application.Quit();
+                _fadeScreen.FadeOut(() => Application.Quit());
 #endif
             }
             );

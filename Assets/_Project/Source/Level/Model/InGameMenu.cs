@@ -1,6 +1,5 @@
 using ItemsSeeker.Core;
 using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ItemsSeeker.Levels
@@ -39,7 +38,6 @@ namespace ItemsSeeker.Levels
 
         void OnPauseAction(InputAction.CallbackContext context)
         {
-            Debug.Log("Pause");
             _active = !_active;
             if (_active)
                 OnActivated?.Invoke();
